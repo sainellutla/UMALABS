@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #0a0a0a;
+}
+
+::selection {
+  background-color: #4c8dff;
+  color: #0a0a0a;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.3s ease;
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 26px 8px rgba(255, 255, 255, 0.55);
+  }
+}
+.node-glow-pulse {
+  animation: glow-pulse 2.6s ease-in-out infinite;
+}
+
+/* Accent-blue-tinted version for the network hub — the one focal point that
+   carries color in an otherwise monochrome scene. */
+@keyframes hub-glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 16px 4px rgba(76, 141, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px 10px rgba(76, 141, 255, 0.7);
+  }
+}
+.hub-glow-pulse {
+  animation: hub-glow-pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin-slow-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 32s linear infinite;
+}
