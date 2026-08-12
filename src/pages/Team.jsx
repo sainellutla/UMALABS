@@ -3,24 +3,23 @@ import PageTransition from "../components/PageTransition.jsx";
 import PageHero from "../components/PageHero.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
 import PersonCard from "../components/PersonCard.jsx";
-import ComingSoon from "../components/ComingSoon.jsx";
 import Reveal from "../components/Reveal.jsx";
 import Button from "../components/Button.jsx";
-import { founders } from "../data/team.js";
+import { founders, interns } from "../data/team.js";
 
 export default function Team() {
   return (
     <PageTransition>
       <SEO
         title="Team"
-        description="Uma Labs is currently led by its founder, Sai Nellutla. Our research team and internship cohort are growing soon."
+        description="Uma Labs is currently led by its founder, Sai Nellutla, joined by our first research intern. Our team is growing."
         path="/team"
       />
 
       <PageHero
         eyebrow="Team"
         title="The people behind Uma Labs' research."
-        description="Uma Labs is an early-stage research organization, currently led by its founder, with a research team and internship cohort on the way."
+        description="Uma Labs is an early-stage research organization, currently led by its founder and joined by our first research intern, with more of the team on the way."
       />
 
       <section className="border-b border-white/10 px-6 py-24 lg:px-10">
@@ -41,17 +40,11 @@ export default function Team() {
             eyebrow="Research Team & Interns"
             title="Growing the lab."
           />
-          <Reveal
-            delay={0.1}
-            className="mt-14 rounded-2xl border border-white/10 bg-white/[0.02] px-6"
-          >
-            <ComingSoon
-              title="Coming soon."
-              description="We're actively building out our research team and internship cohort. Check back soon, or apply directly to get involved early."
-              note="Recruiting soon"
-              compact
-            />
-          </Reveal>
+          <div className="mt-14 grid max-w-sm grid-cols-1 gap-6">
+            {interns.map((person, i) => (
+              <PersonCard key={person.name} person={person} delay={i * 0.08} />
+            ))}
+          </div>
         </div>
       </section>
 
