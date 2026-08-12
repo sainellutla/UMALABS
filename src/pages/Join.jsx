@@ -17,7 +17,6 @@ const tracks = [
   {
     id: "internship",
     title: "Research Internship",
-    duration: "8–12 weeks · Summer Program",
     description:
       "Designed primarily for high school students, though undergraduates are welcome to apply as well. Interns work directly with Uma Labs researchers on active projects in reasoning, vision, and alignment.",
     applyHref: RESEARCH_INTERNSHIP_FORM_URL,
@@ -88,9 +87,11 @@ export default function Join() {
                 delay={i * 0.08}
                 className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/25"
               >
-                <span className="font-mono text-xs uppercase tracking-widest2 text-white/30">
-                  {track.duration}
-                </span>
+                {track.duration && (
+                  <span className="font-mono text-xs uppercase tracking-widest2 text-white/30">
+                    {track.duration}
+                  </span>
+                )}
                 <h3 className="text-lg font-medium text-white">{track.title}</h3>
                 <p className="text-sm leading-relaxed text-white/50">
                   {track.description}
