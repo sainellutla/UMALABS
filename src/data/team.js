@@ -4,3 +4,10 @@ export const founders = [
     role: "Founder & Lead",
   },
 ];
+
+export const interns = [
+  {
+    name: "Paulene Trinh",
+    role: "Research Intern",
+  },
+];
