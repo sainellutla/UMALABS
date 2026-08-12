@@ -7,18 +7,11 @@ import SectionHeading from "../components/SectionHeading.jsx";
 import Reveal from "../components/Reveal.jsx";
 import Button from "../components/Button.jsx";
 
-const statusOptions = [
-  {
-    value: "highschool",
-    label: "High School Student",
-    hint: "Currently enrolled in grades 9–12",
-  },
-  {
-    value: "undergrad",
-    label: "Undergraduate Student",
-    hint: "Currently enrolled at a college or university",
-  },
-];
+// Research Internship applications go straight to a Google Form
+// (`applyHref`) instead of the in-page modal below. External Collaboration
+// still uses the modal + Supabase, unchanged.
+const RESEARCH_INTERNSHIP_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdXR3X3Sp2m4i1lzwQnZnaxmyA5YGRPfqcivFBnyAlA05GVsQ/viewform";
 
 const tracks = [
   {
@@ -27,47 +20,7 @@ const tracks = [
     duration: "8–12 weeks · Summer Program",
     description:
       "Designed primarily for high school students, though undergraduates are welcome to apply as well. Interns work directly with Uma Labs researchers on active projects in reasoning, vision, and alignment.",
-    hasStatusStep: true,
-    fieldsByStatus: {
-      highschool: [
-        { name: "name", label: "Full name", type: "text", placeholder: "Ada Lovelace", required: true },
-        { name: "email", label: "Email", type: "email", placeholder: "you@school.edu", required: true },
-        { name: "school", label: "High school", type: "text", placeholder: "Lincoln High School", required: true },
-        {
-          name: "grade",
-          label: "Grade level",
-          type: "select",
-          options: ["9th Grade", "10th Grade", "11th Grade", "12th Grade"],
-        },
-        { name: "area", label: "Research area of interest", type: "text", placeholder: "e.g. Computer Vision" },
-        { name: "links", label: "Portfolio / GitHub (optional)", type: "text", placeholder: "https://" },
-        {
-          name: "message",
-          label: "Why do you want to join Uma Labs?",
-          type: "textarea",
-          placeholder: "Tell us about yourself and what you'd like to work on.",
-        },
-      ],
-      undergrad: [
-        { name: "name", label: "Full name", type: "text", placeholder: "Ada Lovelace", required: true },
-        { name: "email", label: "Email", type: "email", placeholder: "you@university.edu", required: true },
-        { name: "university", label: "University", type: "text", placeholder: "Stanford University", required: true },
-        {
-          name: "year",
-          label: "Year",
-          type: "select",
-          options: ["Freshman", "Sophomore", "Junior", "Senior", "Graduate"],
-        },
-        { name: "area", label: "Research area of interest", type: "text", placeholder: "e.g. Computer Vision" },
-        { name: "links", label: "Portfolio / GitHub (optional)", type: "text", placeholder: "https://" },
-        {
-          name: "message",
-          label: "Why do you want to join Uma Labs?",
-          type: "textarea",
-          placeholder: "Tell us about yourself and what you'd like to work on.",
-        },
-      ],
-    },
+    applyHref: RESEARCH_INTERNSHIP_FORM_URL,
   },
   {
     id: "collaboration",
@@ -142,13 +95,25 @@ export default function Join() {
                 <p className="text-sm leading-relaxed text-white/50">
                   {track.description}
                 </p>
-                <Button
-                  variant="secondary"
-                  onClick={() => setActiveTrackId(track.id)}
-                  className="mt-auto w-full"
-                >
-                  Apply
-                </Button>
+                {track.applyHref ? (
+                  <Button
+                    variant="secondary"
+                    href={track.applyHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-auto w-full"
+                  >
+                    Apply
+                  </Button>
+                ) : (
+                  <Button
+                    variant="secondary"
+                    onClick={() => setActiveTrackId(track.id)}
+                    className="mt-auto w-full"
+                  >
+                    Apply
+                  </Button>
+                )}
               </Reveal>
             ))}
           </div>
@@ -226,13 +191,10 @@ function Field({ label, children, span }) {
 }
 
 function ApplicationModal({ track, onClose }) {
-  const [status, setStatus] = useState(track.hasStatusStep ? null : "default");
   const [form, setForm] = useState({});
   const [submitStatus, setSubmitStatus] = useState("idle"); // idle | sending | success | error
 
-  const fields = track.hasStatusStep
-    ? track.fieldsByStatus[status] ?? null
-    : track.fields;
+  const fields = track.fields;
 
   useEffect(() => {
     if (!fields) return;
@@ -275,7 +237,7 @@ function ApplicationModal({ track, onClose }) {
 
     const { error } = await supabase.from("applications").insert({
       track: track.id,
-      applicant_status: track.hasStatusStep ? status : null,
+      applicant_status: null,
       data: form,
     });
     setSubmitStatus(error ? "error" : "success");
@@ -340,37 +302,8 @@ function ApplicationModal({ track, onClose }) {
               {track.description}
             </p>
 
-            {track.hasStatusStep && status === null && (
-              <div className="mt-8 flex flex-col gap-3">
-                <span className="text-xs font-medium uppercase tracking-wide text-white/40">
-                  Which best describes you?
-                </span>
-                {statusOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => setStatus(opt.value)}
-                    className="flex flex-col items-start gap-0.5 rounded-lg border border-white/15 px-5 py-4 text-left transition-colors duration-200 hover:border-white/40 hover:bg-white/[0.03]"
-                  >
-                    <span className="text-sm font-medium text-white">
-                      {opt.label}
-                    </span>
-                    <span className="text-xs text-white/40">{opt.hint}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-
             {fields && (
               <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-6">
-                {track.hasStatusStep && (
-                  <button
-                    type="button"
-                    onClick={() => setStatus(null)}
-                    className="link-underline self-start text-xs text-white/40 hover:text-white"
-                  >
-                    ← Change answer
-                  </button>
-                )}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   {fields.map((field) => (
                     <Field
