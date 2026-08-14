@@ -467,7 +467,6 @@ export default function ScrollHero({ researchAreas = [] }) {
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-20">
             <Stat n={String(nodes.length).padStart(2, "0")} label="Research Domains" />
-            <Stat n="01" label="Founder-Led Lab" />
             <Stat n="∞" label="Open Problems" />
           </div>
           <a
