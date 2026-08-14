@@ -6,7 +6,6 @@ import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import Research from "./pages/Research.jsx";
 import Publications from "./pages/Publications.jsx";
-import Team from "./pages/Team.jsx";
 import Join from "./pages/Join.jsx";
 import Contact from "./pages/Contact.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -38,7 +37,6 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/research" element={<Research />} />
             <Route path="/publications" element={<Publications />} />
-            <Route path="/team" element={<Team />} />
             <Route path="/join" element={<Join />} />
             <Route path="/contact" element={<Contact />} />
             <Route

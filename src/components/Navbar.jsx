@@ -7,7 +7,6 @@ import Button from "./Button.jsx";
 const links = [
   { to: "/research", label: "Research" },
   { to: "/publications", label: "Publications" },
-  { to: "/team", label: "Team" },
   { to: "/contact", label: "Contact" },
 ];
 

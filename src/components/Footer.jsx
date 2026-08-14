@@ -6,7 +6,6 @@ const columns = [
     links: [
       { label: "Research", to: "/research" },
       { label: "Publications", to: "/publications" },
-      { label: "Team", to: "/team" },
       { label: "Join Uma Labs", to: "/join" },
     ],
   },
